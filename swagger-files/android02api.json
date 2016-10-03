@@ -3,9 +3,9 @@
     "info": {
         "description": "Esta é uma simples API gerada através do swagger para demonstração da ferramenta.\n",
         "version": "1.0.0",
-        "title": "Swagger Android02 API",
+        "title": "Android 02 API",
         "contact": {
-            "name": "rogeriocnobrega@gmail.com"
+            "name": "rogerio.nobrega@embedded.ufcg.edu.br"
         },
         "license": {
             "name": "Apache 2.0",
@@ -18,7 +18,44 @@
         "http"
     ],
     "paths": {
-        "/contacts/{userId}": {
+        "/contacts": {
+            "delete": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Apaga um contato do do `userId` passado como parâmetro",
+                "description": "",
+                "operationId": "remove",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "parameters": [
+                    {
+                        "name": "contactId",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contato removido com sucesso",
+                        "schema": {
+                            "title": "contact",
+                            "type": "object",
+                            "items": {
+                                "title": "id",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/getAllByUser/{userId}": {
             "get": {
                 "tags": [
                     "Contact"
@@ -33,7 +70,7 @@
                         "required": true
                     }
                 ],
-                "operationId": "getAllContacts",
+                "operationId": "getAllByUser",
                 "produces": [
                     "application/json"
                 ],
@@ -49,13 +86,16 @@
                         }
                     }
                 }
-            },
+            }
+        },
+        "/contacts/create/{userId}": {
             "post": {
                 "tags": [
                     "Contact"
                 ],
                 "summary": "Adiciona um novo contato para o `userId` passado como parâmetro",
                 "description": "",
+                "operationId": "addContact",
                 "parameters": [
                     {
                         "name": "userId",
@@ -87,7 +127,7 @@
                     }
                 ],
                 "consumes": [
-                    "application/x-www-form-urlencoded"
+                    "application/json"
                 ],
                 "produces": [
                     "application/json"
@@ -97,46 +137,6 @@
                         "description": "Contato adicionado com sucesso",
                         "schema": {
                             "$ref": "#/definitions/Contact"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Contact"
-                ],
-                "summary": "Apaga um contato do do `userId` passado como parâmetro",
-                "description": "",
-                "consumes": [
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "text/plain"
-                ],
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "contactId",
-                        "in": "formData",
-                        "type": "string",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contato removido com sucesso",
-                        "schema": {
-                            "title": "contact",
-                            "type": "object",
-                            "items": {
-                                "title": "id",
-                                "type": "string"
-                            }
                         }
                     }
                 }
@@ -151,7 +151,7 @@
                 "description": "",
                 "operationId": "login",
                 "consumes": [
-                    "application/json"
+                    "application/x-www-form-urlencoded"
                 ],
                 "produces": [
                     "application/json"
@@ -179,12 +179,51 @@
                     }
                 }
             }
+        },
+        "/user/create": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Cria um usuário de acordo com o email e senha",
+                "description": "",
+                "operationId": "create",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuário criado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "Contact": {
             "required": [
                 "_id",
+                "userId",
                 "email",
                 "phone"
             ],
@@ -194,6 +233,11 @@
                     "type": "string",
                     "format": "string",
                     "description": "ID gerado pelo db"
+                },
+                "userId": {
+                    "type": "string",
+                    "format": "string",
+                    "description": "ID do usuário"
                 },
                 "name": {
                     "type": "string",
