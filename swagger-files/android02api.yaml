@@ -1,0 +1,194 @@
+swagger: '2.0'
+info:
+  description: >
+    Esta é uma simples API gerada através do swagger para demonstração da
+    ferramenta.
+  version: 1.0.0
+  title: Android 02 API
+  contact:
+    name: rogeriocnobrega@embedded.ufcg.edu.br
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: 'localhost:3000'
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /contacts:
+    delete:
+      tags:
+        - Contact
+      summary: Apaga um contato do do `userId` passado como parâmetro
+      description: ''
+      operationId: remove
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - text/plain
+      parameters:
+        - name: contactId
+          in: formData
+          type: string
+          required: true
+      responses:
+        '200':
+          description: Contato removido com sucesso
+          schema:
+            title: contact
+            type: object
+            items:
+              title: id
+              type: string
+  /contacts/getAllByUser/{userId}:
+    get:
+      tags:
+        - Contact
+      summary: Retorna todos os contatos
+      description: ''
+      parameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+      operationId: getAllByUser
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Sucesso ao retornar todos os contatos
+          schema:
+            type: array
+            title: contacts
+            items:
+              $ref: '#/definitions/Contact'
+  /contacts/create/{userId}:
+    post:
+      tags:
+        - Contact
+      summary: Adiciona um novo contato para o `userId` passado como parâmetro
+      description: ''
+      operationId: addContact
+      parameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+        - name: name
+          in: formData
+          type: string
+        - name: lastName
+          in: formData
+          type: string
+        - name: email
+          in: formData
+          type: string
+          required: true
+        - name: phone
+          in: formData
+          type: string
+          required: true
+      consumes:
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Contato adicionado com sucesso
+          schema:
+            $ref: '#/definitions/Contact'
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Efetua login do user
+      description: ''
+      operationId: login
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: email
+          in: formData
+          required: true
+          type: string
+        - name: password
+          in: formData
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Login efetuado com sucesso
+          schema:
+            $ref: '#/definitions/User'
+  /user/create:
+    post:
+      tags:
+        - User
+      summary: Cria um usuário de acordo com o email e senha
+      description: ''
+      operationId: create
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: email
+          in: formData
+          type: string
+          required: true
+        - name: password
+          in: formData
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Usuário criado com sucesso
+          schema:
+            $ref: '#/definitions/User'
+definitions:
+  Contact:
+    required:
+      - _id
+      - userId
+      - email
+      - phone
+    type: object
+    properties:
+      _id:
+        type: string
+        format: string
+        description: ID gerado pelo db
+      userId:
+        type: string
+        format: string
+        description: ID do usuário
+      name:
+        type: string
+        format: string
+      lastName:
+        type: string
+        format: string
+      email:
+        type: string
+        format: email
+        pattern: email
+      phone:
+        type: string
+        format: string
+  User:
+    required:
+      - _id
+    type: object
+    properties:
+      _id:
+        type: string
+        format: string
+        description: ID gerado pelo db
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+        format: password
