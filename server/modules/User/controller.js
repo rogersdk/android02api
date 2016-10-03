@@ -108,13 +108,23 @@ var login = function (req, res) {
             };
             
 
-            var user = new User({email: req.email, password: req.password}).save();
-            res(null, true);
+            var user = new User({email: req.email, password: req.password})
+                .save(function(err, data) {
+                    if (err) {
+                        var err = new Error(err);
+                        throw err;
+                    }
+
+                    res(null, {id:data._id,email:data.email, name: data.name});
+            });
+            
         } else {
+            var dados = data;
             var user = new User({email: req.email, password: req.password});
             user.comparePassword(req.password, data.password, function (err, data) {
                if (data) {
-                   res(null, data);
+                    
+                    res(null, {id:dados._id,email:dados.email, name: dados.name});
                } else {
                    message = 'Incorrect password!';
                    res(null, false, message);
