@@ -10,7 +10,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: 'ec2-52-67-176-213.sa-east-1.compute.amazonaws.com:9000'
+host: 'ec2-52-67-176-213.sa-east-1.compute.amazonaws.com:8888'
 basePath: /api/v1
 schemes:
   - http
