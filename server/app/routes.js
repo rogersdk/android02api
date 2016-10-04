@@ -39,21 +39,21 @@ module.exports = function (app) {
     // =========================================================================
 
     //get an user by email
-    app.get(BASE_PATH + '/user/findByEmail', function (req, res) {
-        UserController.findByEmail(req.query, function (data) {
+    app.get(BASE_PATH + '/users/:id', function (req, res) {
+        UserController.findById(req.params, function (data) {
             res.json(data);
         });
     });
     
     //create a new user
-    app.post(BASE_PATH + '/user/create', function (req, res) {
+    /*app.post(BASE_PATH + '/user/create', function (req, res) {
         UserController.create(req.body, function (data) {
             res.json(data);
         });
-    });
+    });*/
 
     //user login
-    app.post(BASE_PATH + '/user/login', function (req, res) {
+    app.post(BASE_PATH + '/users/login', function (req, res) {
         UserController.login(req.body, function (err, data, message) {
            if (err) {
                res.json(err);
@@ -69,7 +69,7 @@ module.exports = function (app) {
     });
 
     //delete an user
-    app.delete(BASE_PATH + '/user/remove', function (req, res) {
+    app.delete(BASE_PATH + '/users/remove', function (req, res) {
         UserController.remove(req.query, function (data) {
           res.json(data);
        });
@@ -79,20 +79,20 @@ module.exports = function (app) {
     // CONTACT ROUTES ============================================================
     // =========================================================================
 
-    app.post(BASE_PATH + '/contacts', function (req, res) {
+    app.post(BASE_PATH + '/contacts/create', function (req, res) {
         ContactController.addContact(req.body, function(data) {
             res.json(data);
         });
     });
 
-    app.get(BASE_PATH + '/contacts/getAllByUser', function (req, res) {
-        ContactController.getAllByUser(req.query, function(data) {
+    app.get(BASE_PATH + '/users/:userId/contacts/', function (req, res) {
+        ContactController.getAllByUser(req.params, function(data) {
             res.json(data);
         })
     });
 
-    app.get(BASE_PATH + '/contacts/findByEmail', function (req, res) {
-        ContactController.findByEmail(req.query, function(data) {
+    app.get(BASE_PATH + '/contacts/:id', function (req, res) {
+        ContactController.findById(req.params, function(data) {
             res.json(data);
         })
     });

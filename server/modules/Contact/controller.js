@@ -79,6 +79,45 @@ var findByEmail = function (req, res) {
     });
 };
 
+/**
+ *  Get an contact by id
+ *
+ * @param {Object} req
+ * @param {String} req.id
+ * @param res
+ */
+var findById = function (req, res) {
+
+    var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+
+    if(checkForHexRegExp.test(req.id)) {
+        Contact.findById(req.id, function (err, data) {
+            if (err) {
+                var err = new Error(err);
+                throw err;
+            }
+
+            if (data !== null) {
+                var result = {
+                    name: data.name,
+                    email: data.email,
+                    phone: data.phone,
+                    userId: data.userId,
+                    id: data._id
+                };
+
+                res(result);
+            } else {
+                var message = {
+                    message: 'Contact not found.'
+                };
+                res(message);
+            }
+
+        });
+    }
+};
+
 var getAllByUser = function (req, res) {
     Contact.find({userId: req.userId}, function(err, docs) {
         if (!err){
@@ -121,6 +160,7 @@ var remove = function (req, res) {
 module.exports = {
     addContact : addContact,
     findByEmail: findByEmail,
+    findById: findById,
     getAllByUser: getAllByUser,
     remove: remove
 };

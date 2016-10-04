@@ -10,7 +10,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-host: 'localhost:3000'
+host: 'ec2-52-67-176-213.sa-east-1.compute.amazonaws.com:9000'
 basePath: /api/v1
 schemes:
   - http
@@ -40,29 +40,7 @@ paths:
             items:
               title: id
               type: string
-  /contacts/getAllByUser/{userId}:
-    get:
-      tags:
-        - Contact
-      summary: Retorna todos os contatos
-      description: ''
-      parameters:
-        - name: userId
-          in: path
-          type: string
-          required: true
-      operationId: getAllByUser
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Sucesso ao retornar todos os contatos
-          schema:
-            type: array
-            title: contacts
-            items:
-              $ref: '#/definitions/Contact'
-  /contacts/create/{userId}:
+  /contacts/create:
     post:
       tags:
         - Contact
@@ -71,7 +49,7 @@ paths:
       operationId: addContact
       parameters:
         - name: userId
-          in: path
+          in: formData
           type: string
           required: true
         - name: name
@@ -97,7 +75,30 @@ paths:
           description: Contato adicionado com sucesso
           schema:
             $ref: '#/definitions/Contact'
-  /user/login:
+  /users/{userId}/contacts:
+    get:
+      tags:
+        - User
+      summary: Retorna todos os contatos
+      description: ''
+      parameters:
+        - name: userId
+          in: path
+          type: string
+          required: true
+      operationId: getAllByUser
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Sucesso ao retornar todos os contatos
+          schema:
+            type: array
+            title: contacts
+            items:
+              $ref: '#/definitions/Contact'
+
+  /users/login:
     post:
       tags:
         - User
@@ -122,31 +123,7 @@ paths:
           description: Login efetuado com sucesso
           schema:
             $ref: '#/definitions/User'
-  /user/create:
-    post:
-      tags:
-        - User
-      summary: Cria um usuário de acordo com o email e senha
-      description: ''
-      operationId: create
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: email
-          in: formData
-          type: string
-          required: true
-        - name: password
-          in: formData
-          required: true
-          type: string
-      responses:
-        '200':
-          description: Usuário criado com sucesso
-          schema:
-            $ref: '#/definitions/User'
+
 definitions:
   Contact:
     required:

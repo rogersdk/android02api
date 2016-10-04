@@ -61,28 +61,78 @@ var create = function (req, res) {
  * @param res
  */
 var findByEmail = function (req, res) {
-    User.findOne({email: req.email}, function (err, data) {
-        if (err) {
-            var err = new Error(err);
-            throw err;
-        }
 
-        if (data !== null) {
-            var result = {
-                name: data.name,
-                email: data.email,
-                id:data._id
-            };
+    if(req.userEmail !== '') {
+        User.findOne({email: req.userEmail}, function (err, data) {
+            if (err) {
+                var err = new Error(err);
+                throw err;
+            }
 
-            res(result);
-        } else {
-            var message = {
-                message: 'User not found!'
-            };
-            res(message);
-        }
+            if (data !== null) {
+                var result = {
+                    name: data.name,
+                    email: data.email,
+                    id:data._id
+                };
 
-    });
+                res(result);
+            } else {
+                var message = {
+                    message: 'User not found!'
+                };
+                res(message);
+            }
+
+        });
+    } else {
+        var message = {
+            message: 'Please insert a user ID!'
+        };
+        res(message);
+    }
+};
+
+/**
+ *  Get an user by id
+ *
+ * @param {Object} req
+ * @param {String} req.id
+ * @param res
+ */
+var findById = function (req, res) {
+
+    var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+
+    if(checkForHexRegExp.test(req.id)) {
+        User.findById(req.id, function (err, data) {
+            if (err) {
+                var err = new Error(err);
+                throw err;
+            }
+
+            if (data !== null) {
+                var result = {
+                    name: data.name,
+                    email: data.email,
+                    id:data._id
+                };
+
+                res(result);
+            } else {
+                var message = {
+                    message: 'User not found!'
+                };
+                res(message);
+            }
+
+        });
+    } else {
+        var message = {
+            message: 'No user found!'
+        };
+        res(message);
+    }
 };
 
 /**
@@ -169,5 +219,6 @@ module.exports = {
     create : create,
     login: login,
     findByEmail: findByEmail,
+    findById: findById,
     remove: remove
 };
