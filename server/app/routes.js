@@ -101,7 +101,13 @@ module.exports = function (app) {
         ContactController.remove(req.body, function(data) {
             res.json(data);
         });
-    })
+    });
+
+    app.post(BASE_PATH + '/contacts/remove', function (req, res) {
+        ContactController.remove(req.body, function(data) {
+            res.json(data);
+        });
+    });
 
     module.exports = app;
 };
