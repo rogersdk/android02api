@@ -18,12 +18,12 @@
         "http"
     ],
     "paths": {
-        "/contacts": {
-            "delete": {
+        "/contacts/remove": {
+            "post": {
                 "tags": [
                     "Contact"
                 ],
-                "summary": "Apaga um contato do do `userId` passado como parâmetro",
+                "summary": "Apaga um contato da base de dados através do id passado como parametro",
                 "description": "",
                 "operationId": "remove",
                 "consumes": [
@@ -34,10 +34,11 @@
                 ],
                 "parameters": [
                     {
-                        "name": "contactId",
+                        "name": "id",
                         "in": "formData",
                         "type": "string",
-                        "required": true
+                        "required": true,
+                        "description": "Id do contato a ser removido"
                     }
                 ],
                 "responses": {
@@ -121,7 +122,8 @@
                         "name": "userId",
                         "in": "path",
                         "type": "string",
-                        "required": true
+                        "required": true,
+                        "description": "Id do usuário do Contato"
                     }
                 ],
                 "operationId": "getAllByUser",

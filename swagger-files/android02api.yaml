@@ -15,11 +15,11 @@ basePath: /api/v1
 schemes:
   - http
 paths:
-  /contacts:
-    delete:
+  /contacts/remove:
+    post:
       tags:
         - Contact
-      summary: Apaga um contato do do `userId` passado como parâmetro
+      summary: Apaga um contato da base de dados através do id passado como parametro
       description: ''
       operationId: remove
       consumes:
@@ -27,10 +27,11 @@ paths:
       produces:
         - text/plain
       parameters:
-        - name: contactId
+        - name: id
           in: formData
           type: string
           required: true
+          description: Id do contato a ser removido
       responses:
         '200':
           description: Contato removido com sucesso
@@ -86,6 +87,7 @@ paths:
           in: path
           type: string
           required: true
+          description: Id do usuário do Contato
       operationId: getAllByUser
       produces:
         - application/json
@@ -97,7 +99,6 @@ paths:
             title: contacts
             items:
               $ref: '#/definitions/Contact'
-
   /users/login:
     post:
       tags:
