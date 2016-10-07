@@ -24,6 +24,7 @@ paths:
       operationId: remove
       consumes:
         - application/json
+        - application/x-www-form-urlencoded
       produces:
         - text/plain
       parameters:
@@ -69,6 +70,7 @@ paths:
           required: true
       consumes:
         - application/json
+        - application/x-www-form-urlencoded
       produces:
         - application/json
       responses:
@@ -107,6 +109,7 @@ paths:
       description: ''
       operationId: login
       consumes:
+        - application/json
         - application/x-www-form-urlencoded
       produces:
         - application/json
@@ -124,7 +127,6 @@ paths:
           description: Login efetuado com sucesso
           schema:
             $ref: '#/definitions/User'
-
 definitions:
   Contact:
     required:
