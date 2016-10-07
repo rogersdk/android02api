@@ -118,6 +118,52 @@ var findById = function (req, res) {
     }
 };
 
+/**
+ *  Update contact
+ *
+ * @param {Object} req._id
+ * @param {String} req.dados
+ * @param res
+ */
+var updateContact = function (req, res) {
+
+    var novo = {
+        email: req.email,
+        name: req.name,
+        lastName: req.lastName,
+        phone: req.phone,
+        userId: req.userId
+    };
+
+    Contact.findOneAndUpdate({_id:req._id}, { $set: novo },{new:true}, function(err, data) {
+        if(err) {
+            var result = "";
+            if (err.code) {
+                switch (err.code) {
+                    case 11000:
+                    case 11001:
+                        result = "Dados duplicados.";
+                        break;
+                    default:
+                        result = 'Erro ao atualizar contato.';
+                }
+            }
+            var message = {
+                message: result
+            };
+
+            res(message);
+            return;
+        }
+
+        if(data) {
+            res({message:"Contato atualizado."});
+        } else {
+            res({message:"Contato não localizado."});
+        }
+    });
+};
+
 var getAllByUser = function (req, res) {
     Contact.find({userId: req.userId}, function(err, docs) {
         if (!err){
@@ -159,6 +205,7 @@ var remove = function (req, res) {
 
 module.exports = {
     addContact : addContact,
+    updateContact : updateContact,
     findByEmail: findByEmail,
     findById: findById,
     getAllByUser: getAllByUser,

@@ -85,6 +85,12 @@ module.exports = function (app) {
         });
     });
 
+    app.post(BASE_PATH + '/contacts/update', function (req, res) {
+        ContactController.updateContact(req.body, function(data) {
+            res.json(data);
+        });
+    });
+
     app.get(BASE_PATH + '/users/:userId/contacts/', function (req, res) {
         ContactController.getAllByUser(req.params, function(data) {
             res.json(data);
