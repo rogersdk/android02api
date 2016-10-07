@@ -18,45 +18,6 @@
         "http"
     ],
     "paths": {
-        "/contacts/remove": {
-            "post": {
-                "tags": [
-                    "Contact"
-                ],
-                "summary": "Apaga um contato da base de dados através do id passado como parametro",
-                "description": "",
-                "operationId": "remove",
-                "consumes": [
-                    "application/json",
-                    "application/x-www-form-urlencoded"
-                ],
-                "produces": [
-                    "text/plain"
-                ],
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "formData",
-                        "type": "string",
-                        "required": true,
-                        "description": "Id do contato a ser removido"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Contato removido com sucesso",
-                        "schema": {
-                            "title": "contact",
-                            "type": "object",
-                            "items": {
-                                "title": "id",
-                                "type": "string"
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/contacts/create": {
             "post": {
                 "tags": [
@@ -107,6 +68,110 @@
                         "description": "Contato adicionado com sucesso",
                         "schema": {
                             "$ref": "#/definitions/Contact"
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/remove": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Apaga um contato da base de dados através do id passado como parametro",
+                "description": "",
+                "operationId": "remove",
+                "consumes": [
+                    "application/json",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true,
+                        "description": "Id do contato a ser removido"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "formData",
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "phone",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contato removido com sucesso",
+                        "schema": {
+                            "title": "contact",
+                            "type": "object",
+                            "items": {
+                                "title": "id",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/contacts/update": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Atualiza o contato",
+                "description": "",
+                "operationId": "updateContact",
+                "consumes": [
+                    "application/json",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "formData",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Contato atualizado com sucesso",
+                        "schema": {
+                            "title": "contact",
+                            "type": "object",
+                            "items": {
+                                "title": "id",
+                                "type": "string"
+                            }
                         }
                     }
                 }
